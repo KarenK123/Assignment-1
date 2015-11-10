@@ -11,8 +11,6 @@ void setup()
   
   loadData();
   calculateSums();
-  
-  
 }
 
 //float[] sums = {45,37,55,27,38,50,79,48,104,31}; 
@@ -20,6 +18,7 @@ String[] years = {"Rock", "Popular", "Alternative", "Classical", "Rap", "Electro
 
 
 float centX, centY;
+
 
 float sum(float[] array)
 {
@@ -30,7 +29,6 @@ float sum(float[] array)
   }
   return sum;
 }
-
 
 
 int maxIndex(float[] r)
@@ -49,6 +47,7 @@ int maxIndex(float[] r)
 }
 
 int mode = 0;
+
 
 void loadSums()
 {
