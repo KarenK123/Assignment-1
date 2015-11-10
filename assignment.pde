@@ -7,9 +7,17 @@ void setup()
   
   textMode(SHAPE);
   
+  
+  // Load text file as a string
+  String[] stuff = loadStrings("music.txt");
+  // Convert string into an array of integers using ',' as a delimiter
+  sums = int(split(stuff[0],','));
+  
 }
 
-float[] sums = {29, 17.2, 14.9, 11.2, 3.4, 4.8, 8, 2.2, 3.2, 6.1}; 
+int[] sums;
+//float[] sums = {29, 17.2, 14.9, 11.2, 3.4, 4.8, 8, 2.2, 3.2, 6.1}; 
+
 String[] years = {"Rock", "Popular", "Alternative", "Classical", "Rap", "Electronic", "Holiday", "Childrens", "R&B", "Blues"};
 
 
