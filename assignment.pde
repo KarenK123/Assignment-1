@@ -1,94 +1,79 @@
-ArrayList<assignment> chart = new ArrayList<assignment>();
-
 void setup()
 {
-  size(500, 500);
-  smooth();
+  size(500, 500, P3D);  
+ 
+  centX = width * 0.5f;
+  centY = height * 0.5f;
   
-  loadExpenses();
+  textMode(SHAPE);
+  
+  
 }
 
-void loadExpenses()
+float[] popularity = {45,37,55,27,38,50,79,48,104,31}; 
+String[] years = {"Rock", "Popular", "Alternative", "Classical", "Rap", "Electronic", "Holiday", "Childrens", "R&B", "Blues"};
+
+
+float centX, centY;
+
+float sum(float[] array)
 {
-  String[] lines = loadStrings("music.txt");
-  for (int i = 0 ; i < lines.length ; i ++)
+  float sum = 0;
+  for (float r:array)
   {
-    charts chart = new charts(lines[i]);
-    chart.add(expense);
+    sum += r;
   }
-  
-  
-void drawPartyBars()
+  return sum;
+}
+
+
+
+int maxIndex(float[] r)
 {
-  float gap = (float) width / partyExpenses.size();
-  float max = Float.MIN_VALUE;
-  for (PartyExpense partyExpense:partyExpenses)
+  float max = r[0];
+  int maxIndex = 0;
+  for (int i = 1 ; i < r.length ; i ++)
   {
-    if (partyExpense.total > max)
+    if (r[i] > max)
     {
-      max = partyExpense.total;
+      max = r[i];
+      maxIndex = i;
     }
   }
-  
-  float scaleFactor = (float) height / max;  
-  for (int i = 0 ; i < partyExpenses.size() ; i ++)
-  {
-    PartyExpense partyExpense = partyExpenses.get(i);
-    stroke(partyExpense.colour);
-    fill(partyExpense.colour);
-    float x = i * gap;
-    rect(x, height, gap, - (partyExpense.total * scaleFactor));
-    stroke(255);
-    fill(255);
-    text(partyExpense.name, x, height - 20);
-  }
+  return maxIndex;
 }
 
-void drawExpenseBars()
-{
-  float gap = (float) width / expenses.size();
-  float max = Float.MIN_VALUE;
-  for (Expense expense:expenses)
-  {
-    if (expense.total > max)
-    {
-      max = expense.total;
-    }
-  }
-  
-  float scaleFactor = (float) height / max;  
-  for (int i = 0 ; i < expenses.size() ; i ++)
-  {
-    Expense expense = expenses.get(i);
-    stroke(expense.colour);
-    fill(expense.colour);
-    float x = i * gap;
-    rect(x, height, gap, - (expense.total * scaleFactor));
-  }
-}
+int mode = 0;
 
-int which = 0;
+
 
 void draw()
-{
+{    
   background(0);
-  if(keyPressed)
-  {
-    if (key == '0')
-    {
-      which = 0;
-    }
-    if (key == '1')
-    {
-      which = 1;
-    }
-  }
-  if (which == 0)
-  {
-    drawExpenseBars();
-  }
-  else
-  {
-    drawPartyBars();
-  }  
+  float barWidth = width / (float) years.length;
+ 
+     float sum = sum(popularity);
+     int maxIndex = maxIndex(popularity);
+     float max = popularity[maxIndex];
+     float thetaPrev = 0;
+     for(int i = 0 ; i < popularity.length ; i ++)
+     {
+       
+       float theta = map(popularity[i], 0, sum, 0, TWO_PI);
+       textAlign(CENTER);
+       float col = map(popularity[i], 0, max, 255, 100);
+       float thetaNext = thetaPrev + theta;
+       float radius = centX * 0.6f;       
+       float x = centX + sin(thetaPrev + (theta * 0.5f) + HALF_PI) * radius;      
+       float y = centY - cos(thetaPrev + (theta * 0.5f) + HALF_PI) * radius;
+       fill(255);//for text
+       text(years[i], x, y);             
+       stroke(0);
+       fill(0, col, col);               
+       arc(centX, centY, centX, centY, thetaPrev, thetaNext);
+       thetaPrev = thetaNext;
+     }
 }
+
+
+
