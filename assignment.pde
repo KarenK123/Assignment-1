@@ -1,3 +1,5 @@
+ArrayList<ArrayList<Float>> data = new ArrayList<ArrayList<Float>>();
+
 void setup()
 {
   size(500, 500, P3D);  
@@ -7,10 +9,13 @@ void setup()
   
   textMode(SHAPE);
   
+  loadData();
+  calculateSums();
+  
   
 }
 
-float[] popularity = {45,37,55,27,38,50,79,48,104,31}; 
+//float[] sums = {45,37,55,27,38,50,79,48,104,31}; 
 String[] years = {"Rock", "Popular", "Alternative", "Classical", "Rap", "Electronic", "Holiday", "Childrens", "R&B", "Blues"};
 
 
@@ -45,6 +50,32 @@ int maxIndex(float[] r)
 
 int mode = 0;
 
+void loadSums()
+{
+  String[] strings = loadStrings("sum.csv");
+  
+  for(String s:strings)
+  {
+    sums.add(parseFloat(s));
+  }
+  
+}
+
+ArrayList<Float> sums = new ArrayList<Float>();
+
+
+void calculateSums()
+{
+  for(ArrayList<Float> lineData:data)
+  {
+    float sum = 0;
+    for (float f:lineData)
+    {
+      sum += f;
+    }
+    sums.add(sum);
+  }
+}
 
 
 void draw()
@@ -52,16 +83,16 @@ void draw()
   background(0);
   float barWidth = width / (float) years.length;
  
-     float sum = sum(popularity);
-     int maxIndex = maxIndex(popularity);
-     float max = popularity[maxIndex];
+     float sum = sum(sums);
+     int maxIndex = maxIndex(sums);
+     float max = sums[maxIndex];
      float thetaPrev = 0;
-     for(int i = 0 ; i < popularity.length ; i ++)
+     for(int i = 0 ; i < sums.length ; i ++)
      {
        
-       float theta = map(popularity[i], 0, sum, 0, TWO_PI);
+       float theta = map(sums[i], 0, sum, 0, TWO_PI);
        textAlign(CENTER);
-       float col = map(popularity[i], 0, max, 255, 100);
+       float col = map(sums[i], 0, max, 255, 100);
        float thetaNext = thetaPrev + theta;
        float radius = centX * 0.6f;       
        float x = centX + sin(thetaPrev + (theta * 0.5f) + HALF_PI) * radius;      
@@ -75,5 +106,25 @@ void draw()
      }
 }
 
+
+void loadData()
+{
+  String[] strings = loadStrings("music.csv");
+  
+  for(String s:strings)
+  {
+    println(s);
+    String[] line = s.split(",");
+    
+    ArrayList<Float> lineData = new ArrayList<Float>();
+    
+    // Start at 1, so we skip the first one 
+    for (int i = 1 ; i < line.length ; i ++)
+    {
+      lineData.add(Float.parseFloat(line[i]));              
+    }
+    data.add(lineData);
+  }
+}
 
 
