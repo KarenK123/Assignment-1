@@ -109,7 +109,7 @@ void draw()
 
 void loadData()
 {
-  String[] strings = loadStrings("music.csv");
+  String[] strings = loadStrings("music.txt");
   
   for(String s:strings)
   {
