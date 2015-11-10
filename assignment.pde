@@ -9,7 +9,7 @@ void setup()
   
 }
 
-float[] sums = {45,37,55,27,38,50,79,48,104,31}; 
+float[] sums = {29, 17.2, 14.9, 11.2, 3.4, 4.8, 8, 2.2, 3.2, 6.1}; 
 String[] years = {"Rock", "Popular", "Alternative", "Classical", "Rap", "Electronic", "Holiday", "Childrens", "R&B", "Blues"};
 
 
@@ -72,7 +72,3 @@ void draw()
        thetaPrev = thetaNext;
      }
 }
-
-
-
-
